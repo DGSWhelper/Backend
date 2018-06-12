@@ -7,10 +7,10 @@ const port = process.env.SERVER_PORT
 const app = express()
 const router = require('./routes')
 
-app.use('/',router)
-
-app.use(bodyParser.urlencoded({extended : false}))
+app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
+
+app.use('/',router)
 
 const server = app.listen(port, () => {
   console.log(`Express Server is Running on ${port}`)

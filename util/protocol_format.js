@@ -51,5 +51,6 @@ order.notFound = (res) => {
 }
 
 module.exports={
-  user:user
+  user:user,
+  order:order
 }
