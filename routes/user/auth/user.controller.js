@@ -2,6 +2,7 @@ const User = require('../../../models/user')
 const jwt = require('jsonwebtoken')
 const secret = process.env.JWT_SECRET
 const protocol = require('../../../util/protocol_format').user
+const moment = require('moment')
 
 exports.login = (req, res) => {
   User.findOne({ email: req.resource.email })
@@ -55,7 +56,7 @@ exports.order_eroll = (req, res) => {
   var order = new Order();
   order.customer_id = user_id
   order.items = req.body.items
-  order.registered_date = new Date().getTime()
+  order.registered_date = moment().format()
   order.place = req.body.place
   order.estimated_price = req.body.estimated_price
 
