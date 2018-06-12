@@ -74,6 +74,7 @@ exports.order_enroll = (req, res) => {
   order.customer_id = user_id
   order.items = req.body.items
   order.registered_date = moment().format()
+  order.comment = req.body.comment
   order.place = req.body.place
   order.estimated_price = req.body.estimated_price
 

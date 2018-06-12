@@ -6,7 +6,8 @@ const Order = new Schema({
   superman_id: String,
   items: [new mongoose.Schema({name: String})],
   status: {type: Number,default: 0},
-  registered_date: String,
+  registered_date: Date,
+  comment: String,
   place: String,
   finished_date: Date,
   estimated_price : Number
