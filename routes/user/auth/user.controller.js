@@ -9,52 +9,57 @@ const moment = require('moment')
 var user_id = null;
 
 exports.login = (req, res) => {
-  User.findOne({ email: req.resource.email })
-    .then(data => {
-      if (data === null) {
-        var user = new User();
-        user.email = req.resource.email;
-        user.username = req.resource.name;
-        user.profile_img = req.resource.picture.data.url;
 
-        user.save((err) => {
-          console.log("db_name : " + process.env.DB_NAME);
-          if (err)
-            user_protocol.error(res, err)
-        })
-      }
-    })
-    .then(() => {
-      User.findOne({ email: req.resource.email })
-        .then(data => {
-          console.log("email : "+req.resource.email);
-          console.log("data : " + data);
-          jwt.sign(
-            {
-              _id: data._id
-            },
-            secret,
-            {
-              expiresIn: "1h",
-              issuer: "superman",
-              subject: "userInfo"
-            }, (err, token) => {
-              if (err) {
-                user_protocol.error(res, err)
-              } else {
-                res.cookie('x-access-token', JSON.stringify(token), {httpOnly : true})
-                user_protocol.success(res, token)
+  if(req.resource.email == null){
+    user_protocol.invalidate(res)
+  }else {
+    User.findOne({ email: req.resource.email })
+      .then(data => {
+        if (data === null) {
+          var user = new User();
+          user.email = req.resource.email;
+          user.username = req.resource.name;
+          user.profile_img = req.resource.picture.data.url;
+
+          user.save((err) => {
+            console.log("db_name : " + process.env.DB_NAME);
+            if (err)
+              user_protocol.error(res, err)
+          })
+        }
+      })
+      .then(() => {
+        User.findOne({ email: req.resource.email })
+          .then(data => {
+            console.log("email : "+req.resource.email);
+            console.log("data : " + data);
+            jwt.sign(
+              {
+                _id: data._id
+              },
+              secret,
+              {
+                expiresIn: "1h",
+                issuer: "superman",
+                subject: "userInfo"
+              }, (err, token) => {
+                if (err) {
+                  user_protocol.error(res, err)
+                } else {
+                  res.cookie('x-access-token', JSON.stringify(token), {httpOnly : true})
+                  user_protocol.success(res, token)
+                }
               }
-            }
-          )
-        })
-        .catch(err => {
-          user_protocol.error(res, err)
-        })
-    })
-    .catch(err => {
-      user_protocol.error(res, err)
-    })
+            )
+          })
+          .catch(err => {
+            user_protocol.error(res, err)
+          })
+      })
+      .catch(err => {
+        user_protocol.error(res, err)
+      })
+  }
 }
 
 exports.logout = (req, res) => {

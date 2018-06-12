@@ -39,7 +39,25 @@ exports.supermanSelect = (req,res) => {
 
 exports.orderFinish = (req,res) => {
   Order.update({"_id" : req.body.order_id},{$set : {"status" : 2}})
-  .then(order_protocol.success(res))
+  .then(
+    Order.findOne({"_id" : req.body.order_id})
+    .then((data_tmp) => {
+      User.findOne({"_id" : data_tmp.superman_id})
+      .then((data_tmp2) => {
+        User.update({"_id" : data_tmp.superman_id},{$set : {"finish_order" : (data_tmp2.finish_order+1)}})
+        .then(order.protocol.success(res))
+        .catch((err) => {
+          order.protocol.error(res,err)
+        })
+      })
+      .catch((err) => {
+        order_protocol.error(res,err)
+      })
+    })
+    .catch((err) => {
+      order_protocol.error(res,err)
+    })
+  )
   .catch((err) => {
     order_protocol.error(res,err)
   })

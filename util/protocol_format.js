@@ -32,6 +32,13 @@ user.over = (res) => {
  });
 }
 
+user.invalidate = (res) => {
+  return res.send({
+   "Code" : 203,
+   "Desc" : "Email invalidate"
+ });
+}
+
 //Order Error
 
 order.error = (res,err) => {
