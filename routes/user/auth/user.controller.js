@@ -10,7 +10,7 @@ exports.login = (req, res) => {
         var user = new User();
         user.email = req.resource.email;
         user.username = req.resource.name;
-        user.profile_img = req.resource.picture;
+        user.profile_img = req.resource.picture.data.url;
 
         user.save((err) => {
           console.log("db_name : " + process.env.DB_NAME);
