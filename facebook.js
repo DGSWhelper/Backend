@@ -1,10 +1,5 @@
-const http = require('http');
-const app = require('express')();
-const bodyParser = require('body-parser');
-const logger = require('morgan');
+const router = require('express').Router();
 const request = require('request');
-
-const port = process.env.AUTH_FACEBOOK_PORT;
 
 const client_id = '475995082859135';
 const client_secret = 'bae6d04aa093e9a844a34693f46ff193';
@@ -19,14 +14,7 @@ const getAccessTokenUri = 'https://graph.facebook.com/v3.0/oauth/access_token?'
 const userScope = 'id,name,email,picture'
 const graphApi = `https://graph.facebook.com/v3.0/me?fields=${userScope}&`;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(logger('tiny'));
-
-app.get('/', (requ, res) => {
-    res.redirect(getCodeUri);
-});
-
-app.get('/access', (req, res) => {
+router.get('/', (req, res) => {
     let code = req.query.code;
     let accessUri = getAccessTokenUri + `code=${code}`;
 
@@ -37,8 +25,6 @@ app.get('/access', (req, res) => {
         user.name = parseData.name;
         user.email = parseData.email;
         user.picture = parseData.picture.data.url;
-
-        return res.json(user);
     }
 
     function callback(err, status, response) {
@@ -58,6 +44,4 @@ app.get('/access', (req, res) => {
     request(accessUri, callback);
 });
 
-http.createServer(app).listen(port, () => {
-    console.log(`Express Starting on ${port}`);
-});
+module.exports = router;
