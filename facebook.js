@@ -3,7 +3,7 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const request = require('request');
-
+require('dotenv').config()
 const port = process.env.AUTH_FACEBOOK_PORT;
 
 const client_id = '475995082859135';
@@ -33,7 +33,7 @@ app.get('/access', (req, res) => {
     function getUserInfo(err, status, response) {
         let parseData = JSON.parse(response);
         let user = { };
-        
+
         user.name = parseData.name;
         user.email = parseData.email;
         user.picture = parseData.picture.data.url;
@@ -48,7 +48,7 @@ app.get('/access', (req, res) => {
             throw new Error('Access token undefined');
 
         console.log('access : ' + ob.access_token);
-        
+
         let token = ob.access_token;
         let graphApiUri = graphApi + `access_token=${token}`;
 

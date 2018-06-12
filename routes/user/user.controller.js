@@ -5,14 +5,13 @@ const protocol = require('../../util/protocol_format').user
 
 
 exports.login = (req, res) => {
-  User.findOne({email : 's060132@naver.com'})
+  User.findOne({email : req.facebook.email})
     .then(data => {
       if(data === null){
-        console.log("data : "+data);
         var user = new User();
-        user.email = "s060132@naver.com";
-        user.username = "박태형";
-        user.profile_img = "abc.jpg";
+        user.email = req.facebook.email;
+        user.username = req.facebook.name;
+        user.profile_img = req.facebook.picture;
 
         user.save((err) => {
           console.log("db_name : "+process.env.DB_NAME);
@@ -22,7 +21,7 @@ exports.login = (req, res) => {
       }
     })
     .then(() => {
-      User.findOne({email : "s060132@naver.com"})
+      User.findOne({email : req.facebook.email})
         .then(data => {
           console.log("data : "+data);
           jwt.sign(
