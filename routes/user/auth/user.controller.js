@@ -1,7 +1,7 @@
-const User = require('../../models/user')
+const User = require('../../../models/user')
 const jwt = require('jsonwebtoken')
 const secret = process.env.JWT_SECRET
-const protocol = require('../../util/protocol_format').user
+const protocol = require('../../../util/protocol_format').user
 
 exports.login = (req, res) => {
   User.findOne({ email: req.resource.email })
@@ -29,7 +29,7 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: "1h",
+              expiresIn: "1d",
               issuer: "superman",
               subject: "userInfo"
             }, (err, token) => {
