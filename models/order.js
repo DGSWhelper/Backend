@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const User = new Schema({
+const Order = new Schema({
   customer_id : String,
   superman_id: String,
   items: String,
@@ -13,4 +13,4 @@ const User = new Schema({
   estimated_price : Number
 });
 
-module.exports = mongoose.model('User',User);
+module.exports = mongoose.model('Order',Order);

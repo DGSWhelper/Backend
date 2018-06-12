@@ -1,4 +1,5 @@
 const User = require('../../models/user')
+const Order = require('../../models/order')
 const jwt = require('jsonwebtoken')
 const secret = process.env.JWT_SECRET
 const protocol = require('../../util/protocol_format').user
@@ -49,4 +50,7 @@ exports.login = (req, res) => {
     .catch(err => {
       protocol.error(res,err)
     })
+}
+exports.order_eroll = (req,res) => {
+
 }

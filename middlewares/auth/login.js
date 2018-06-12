@@ -7,16 +7,7 @@ const url = 'http://localhost:'+auth_port
 
 const loginMiddleware = (req, res ,next) => {
   console.log("url : "+url);
-  request(url,(err,response,body) => {
-      if(err){
-        res.send({
-          "Code" : 0,
-          "Desc" : err.message
-        })
-      }
-      req.facebook = body
-      next()
-  });
+  res.redirect('/access');
 }
 
 module.exports = loginMiddleware
