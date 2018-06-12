@@ -24,6 +24,14 @@ user.success = (res,rows) => {
  });
 }
 
+//User over
+user.over = (res) => {
+  return res.send({
+   "Code" : 202,
+   "Desc" : "User Over"
+ });
+}
+
 //Order Error
 
 order.error = (res,err) => {

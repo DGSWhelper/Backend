@@ -7,7 +7,7 @@ const User = new Schema({
   contact: String,
   finish_order: Number,
   profile_img: String,
-  vote: [String],
+  vote: [new mongoose.Schema({user_id: String})],
   like: {type: Number, default: 0},
   hate: {type: Number, default: 0}
 });

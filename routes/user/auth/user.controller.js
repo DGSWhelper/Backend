@@ -79,7 +79,7 @@ exports.order_superman = (req,res) => {
   .then((data) => {
     order_protocol.success(res,data)
   }).catch((err) => {
-    order_protocol(res,err)
+    order_protocol.error(res,err)
   })
 }
 
@@ -89,7 +89,7 @@ exports.order_customer = (req,res) => {
   .then((data) => {
     order_protocol.success(res,data)
   }).catch((err) => {
-    order_protocol(res,err)
+    order_protocol.error(res,err)
   })
 }
 
@@ -110,7 +110,7 @@ exports.my_profile = (req,res) => {
   .then((data) => {
     user_protocol.success(res,data)
   }).catch((err) => {
-    user_protocl.error(res,err)
+    user_protocol.error(res,err)
   })
 }
 
@@ -119,6 +119,57 @@ exports.other_profile = (req,res) => {
   .then((data) => {
     user_protocol.success(res,data)
   }).catch((err) => {
-    user_protocl.error(res,err)
+    user_protocol.error(res,err)
+  })
+}
+
+exports.like = (req,res) => {
+  user_id = req.user._id
+  User.findOne({"vote" : { $elemMatch : {"user_id" : user_id}}})
+  .then((data) => {
+    if(data != null){
+      user_protocol.over(res)
+    }else{
+      console.log("data : "+data);
+      User.findOne({"_id" : req.body.user_id})
+      .then((data_tmp) => {
+        console.log("data_tmp : "+data_tmp);
+        User.update({"_id" : req.body.user_id},{$set : {"like" : data_tmp.like+1},$push : {"vote" : {"user_id" : user_id}}})
+        .then(user_protocol.success(res))
+        .catch((err) => {
+          user_protocol.error(res,err)
+        })
+      })
+      .catch((err) => {
+        user_protocol.error(res,err)
+      })
+    }
+  }).catch((err) => {
+    user_protocol.error(res,err)
+  })
+}
+
+exports.hate = (req,res) => {
+  user_id = req.user._id
+  User.findOne({"vote" : { $elemMatch : {"user_id" : user_id}}})
+  .then((data) => {
+    if(data != null){
+      user_protocol.over(res)
+    }else{
+      console.log("data : "+data);
+      User.findOne({"_id" : req.body.user_id})
+      .then((data_tmp) => {
+        User.update({"_id" : req.body.user_id},{$set : {"hate" : data_tmp.hate+1},$push : {"vote" : {"user_id" : user_id}}})
+        .then(user_protocol.success(res))
+        .catch((err) => {
+          user_protocol.error(res,err)
+        })
+      })
+      .catch((err) => {
+        user_protocol.error(res,err)
+      })
+    }
+  }).catch((err) => {
+    user_protocol.error(res,err)
   })
 }

@@ -20,4 +20,7 @@ router.use('/info',verifyMiddleware)
 router.get('/info',controller.my_profile)
 router.get('/info/:user_id',controller.other_profile)
 
+router.use('/eval',verifyMiddleware)
+router.post('/eval/like',controller.like)
+router.post('/eval/hate',controller.hate)
 module.exports = router
