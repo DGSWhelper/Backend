@@ -1,12 +1,13 @@
 const request = require('request')
+const config = require('../../config')
 const auth_port = process.env.AUTH_FACEBOOK_PORT
 const User = require('../../models/user')
 
+const url = 'http://localhost:'+auth_port
+
 const loginMiddleware = (req, res ,next) => {
-
-  let user_id = null;
-
-  request(`127.0.0.1:${auth_port}`,(err,response,body) => {
+  console.log("url : "+url);
+  request(url,(err,response,body) => {
       if(err){
         res.send({
           "Code" : 0,
@@ -14,6 +15,8 @@ const loginMiddleware = (req, res ,next) => {
         })
       }
       req.facebook = body
+      next()
   });
-
 }
+
+module.exports = loginMiddleware

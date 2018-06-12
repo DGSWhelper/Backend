@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const request = require('request');
+require('dotenv').config()
+const port = process.env.AUTH_FACEBOOK_PORT;
 
 const client_id = '475995082859135';
 const client_secret = 'bae6d04aa093e9a844a34693f46ff193';
@@ -21,7 +23,7 @@ router.get('/', (req, res) => {
     function getUserInfo(err, status, response) {
         let parseData = JSON.parse(response);
         let user = { };
-        
+
         user.name = parseData.name;
         user.email = parseData.email;
         user.picture = parseData.picture.data.url;
@@ -34,7 +36,7 @@ router.get('/', (req, res) => {
             throw new Error('Access token undefined');
 
         console.log('access : ' + ob.access_token);
-        
+
         let token = ob.access_token;
         let graphApiUri = graphApi + `access_token=${token}`;
 
@@ -44,4 +46,10 @@ router.get('/', (req, res) => {
     request(accessUri, callback);
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+http.createServer(app).listen(port, () => {
+    console.log(`Express Starting on ${port}`);
+});
+>>>>>>> 58671039b04fb23aa5fe6b14bddfd2ea4aaa0fbf
