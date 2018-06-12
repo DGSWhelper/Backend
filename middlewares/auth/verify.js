@@ -30,7 +30,7 @@ const token = req.headers['x-access-token']
 //decoded에 idx에 user의 idx값 저장됨
 
   verify.then((decoded) => {
-    req.decoded = decoded
+    req.user = decoded
     next()
   }).catch(onError)
 }
