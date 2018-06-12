@@ -45,11 +45,3 @@ router.get('/', (req, res) => {
 
     request(accessUri, callback);
 });
-
-<<<<<<< HEAD
-module.exports = router;
-=======
-http.createServer(app).listen(port, () => {
-    console.log(`Express Starting on ${port}`);
-});
->>>>>>> 58671039b04fb23aa5fe6b14bddfd2ea4aaa0fbf
