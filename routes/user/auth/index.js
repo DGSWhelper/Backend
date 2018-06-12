@@ -9,6 +9,8 @@ router.get('/login', (req, res) => { res.redirect('https://www.facebook.com/v3.0
 router.use('/facebook', faceboook)
 router.get('/facebook', controller.login)
 
+router.get('/logout',controller.logout)
+
 router.use('/order',verifyMiddleware)
 
 router.post('/order',controller.order_enroll)

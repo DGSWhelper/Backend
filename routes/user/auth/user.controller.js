@@ -35,14 +35,14 @@ exports.login = (req, res) => {
             },
             secret,
             {
-              expiresIn: "1d",
+              expiresIn: "1h",
               issuer: "superman",
               subject: "userInfo"
             }, (err, token) => {
               if (err) {
                 user_protocol.error(res, err)
               } else {
-
+                res.cookie('x-access-token', JSON.stringify(token), {httpOnly : true})
                 user_protocol.success(res, token)
               }
             }
@@ -55,6 +55,11 @@ exports.login = (req, res) => {
     .catch(err => {
       user_protocol.error(res, err)
     })
+}
+
+exports.logout = (req, res) => {
+  res.clearCookie('x-access-token')
+  user_protocol.success(res)
 }
 
 exports.order_enroll = (req, res) => {

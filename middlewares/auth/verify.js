@@ -1,20 +1,20 @@
 const jwt = require('jsonwebtoken')
 const secret = process.env.JWT_SECRET
 const verifyMiddleware = (req, res, next) => {
-
-const token = req.headers['x-access-token']
-
-  if(!token){
+  
+  if (req.cookies['x-access-token'] === undefined) {
     return res.send({
-      Code : 0,
-      Desc : 'not logged in'
+      Code: 0,
+      Desc: 'not logged in'
     });
   }
 
+  const token = JSON.parse(req.cookies['x-access-token'])
+
   const verify = new Promise(
-    (resolve,reject) => {
-      jwt.verify(token,secret,(err, decoded) => {
-        if(err) reject(err)
+    (resolve, reject) => {
+      jwt.verify(token, secret, (err, decoded) => {
+        if (err) reject(err)
         resolve(decoded)
       })
     }
@@ -22,12 +22,12 @@ const token = req.headers['x-access-token']
 
   const onError = (error) => {
     res.send({
-      Code : 1,
-      Desc : error.message
+      Code: 1,
+      Desc: error.message
     })
   }
 
-//decoded에 idx에 user의 idx값 저장됨
+  //decoded에 idx에 user의 idx값 저장됨
 
   verify.then((decoded) => {
     req.user = decoded
