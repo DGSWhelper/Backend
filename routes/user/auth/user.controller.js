@@ -10,7 +10,7 @@ var user_id = null;
 
 exports.login = (req, res) => {
 
-  if(req.resource.email == null){
+  if(req.resource.email === null){
     user_protocol.invalidate(res)
   }else {
     User.findOne({ email: req.resource.email })

@@ -45,7 +45,7 @@ exports.orderFinish = (req,res) => {
     .then((data_tmp) => {
       User.findOne({"_id" : data_tmp.superman_id})
       .then((data_tmp2) => {
-        User.update({"_id" : data_tmp.superman_id},{$set : {"finish_order" : (data_tmp2.finish_order+1)}})
+        User.update({"_id" : data_tmp.superman_id},{$set : {"finish_order" : (data_tmp2.finish_order+1),"finished_date" : moment().format()}})
         .then(order.protocol.success(res))
         .catch((err) => {
           order.protocol.error(res,err)
