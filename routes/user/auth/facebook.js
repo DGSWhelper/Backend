@@ -21,13 +21,11 @@ const access = (req, res, next) => {
 
     function getUserInfo(err, status, response) {
         let parseData = JSON.parse(response)
-        let user = { }
 
-        req.resource.name = parseData.name;
-        req.resource.email = parseData.email;
-        req.resource.picture = parseData.picture.data.url;
+        console.log(parseData)
 
-        next();
+        req.resource = parseData
+        next()
     }
 
     function callback(err, status, response) {
