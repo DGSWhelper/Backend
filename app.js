@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
@@ -9,6 +10,7 @@ const router = require('./routes')
 
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 app.use('/',router)
 
