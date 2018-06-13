@@ -63,3 +63,13 @@ exports.orderFinish = (req,res) => {
     order_protocol.error(res,err)
   })
 }
+
+exports.waitingForOrder = (req,res) => {
+  Waiting.find({"order_id" : req.params.order_id})
+  .then((data) => {
+    order_protocol.success(res,data)
+  })
+  .catch((err) => {
+    order_protocol.error(res,err)
+  })
+}
